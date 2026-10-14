@@ -98,8 +98,3 @@ app/globals.css          design tokens (@theme) and shared utilities
 ```
 
 
-- The QR code encodes `https://larkspur.example/app` (a reserved example
-  domain).
-- Unknown URLs render the not-found page with `noindex`, but the HTTP status
-  is 200 because the response is streamed (Partial Prerendering).
-- Room sizes and product names are fictional sample content.
