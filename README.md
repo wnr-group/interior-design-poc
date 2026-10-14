@@ -1,4 +1,4 @@
-# Larkspur Planner — home design POC
+#  home design POC
 
 A standalone proof of concept that recreates the layout and browsing
 experience of a large furniture retailer's "home design" landing page, under a
