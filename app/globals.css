@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* Larkspur design tokens. A quiet, mostly monochrome editorial palette - near
+   black type, warm greys for surfaces - with terracotta as the single brand
+   colour and sage as its partner in illustrations. */
+@theme {
+  --color-ink: #111111;
+  --color-ink-2: #484848;
+  --color-ink-3: #767676;
+  --color-line: #dfdfdf;
+  --color-line-strong: #929292;
+  --color-surface: #f5f5f5;
+  --color-tile: #d6d6d4;
+
+  --color-brand: #b4502c;
+  --color-brand-dark: #8f3d1f;
+  --color-brand-soft: #f6e7df;
+  --color-sage: #5f8467;
+
+  --font-sans: var(--font-noto-sans), system-ui, sans-serif;
+
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.12);
+  --shadow-card-hover: 0 6px 20px rgba(0, 0, 0, 0.16);
+
+  --breakpoint-xs: 30rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    overflow-x: clip;
+  }
+  /* Anchored sections land below the sticky header rather than under it. */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Page gutter: 16px on phones growing to 48px on desktop, with a ceiling so
+   lines stay readable on very wide screens. */
+@utility page-x {
+  @apply mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-12;
+}
+
+/* Type scale, measured from the reference: 40/50 hero, 32/44 section,
+   24/30 card titles, scaled down a step on small screens. */
+@utility text-hero {
+  @apply text-[1.75rem] leading-[2.25rem] font-bold tracking-[-0.01em] md:text-[2.5rem] md:leading-[3.125rem] lg:text-[2rem] lg:leading-[2.5rem] xl:text-[2.5rem] xl:leading-[3.125rem];
+}
+@utility text-section {
+  @apply text-2xl leading-8 font-bold tracking-[-0.01em] md:text-[2rem] md:leading-[2.75rem];
+}
+@utility text-card {
+  @apply text-xl leading-[1.625rem] font-bold md:text-2xl md:leading-[1.875rem];
+}
+
+@utility btn {
+  @apply inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-full px-5 text-sm font-bold whitespace-nowrap transition-[background-color,border-color,color,box-shadow] duration-200;
+}
+@utility btn-primary {
+  @apply btn bg-ink text-white hover:bg-ink-2;
+}
+@utility btn-outline {
+  @apply btn border border-line-strong bg-white text-ink hover:border-ink hover:shadow-[inset_0_0_0_1px_var(--color-ink)];
+}
+@utility btn-soft {
+  @apply btn bg-surface text-ink hover:bg-line;
+}
+
+/* Hero outline overlay: each traced piece of furniture draws itself, holds,
+   then fades so the loop can start again. Paths use pathLength=1 so one
+   dash value fits every shape. */
+@keyframes trace {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  32% { stroke-dashoffset: 0; opacity: 1; }
+  82% { stroke-dashoffset: 0; opacity: 1; }
+  96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes pop {
+  0%, 30% { transform: scale(0); opacity: 0; }
+  40%, 88% { transform: scale(1); opacity: 1; }
+  98%, 100% { transform: scale(1); opacity: 0; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.trace-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: trace 9s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+.trace-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop 9s ease-out infinite;
+}
+.is-paused .trace-path,
+.is-paused .trace-pop {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .trace-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .trace-pop {
+    animation: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
