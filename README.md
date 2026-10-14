@@ -97,25 +97,7 @@ lib/
 app/globals.css          design tokens (@theme) and shared utilities
 ```
 
-## Performance notes
 
-- `next/image` uses a custom loader that asks Unsplash's CDN for exactly the
-  srcset widths needed (AVIF/WebP via `auto=format`), so the Next server never
-  proxies or resizes originals. Only the hero image is preloaded; everything
-  else lazy-loads.
-- Empty rooms, the floor-plan illustration, icons and the QR code are inline
-  or static SVG.
-- Every route is prerendered at build time.
-
-## Known limitations
-
-- Accounts, favourites and the bag are out of scope;
-  their links lead to holding pages.
-- Designer: saved designs live in this browser only (no sharing or sync);
-  furniture is procedural, not product models; there are no wall-mounted
-  pieces, no collision blocking (overlaps are flagged, not prevented) and no
-  door-swing clearance checks; catalogue drag-and-drop needs a mouse (touch
-  uses tap to add, then drag in the room).
 - The QR code encodes `https://larkspur.example/app` (a reserved example
   domain).
 - Unknown URLs render the not-found page with `noindex`, but the HTTP status
